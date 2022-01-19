@@ -1,35 +1,51 @@
 @extends('layouts.app')
-
+@push('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+@endpush
 @section('content')
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="h3 mb-3 font-weight-normal mt-2">{{$title}}</h1>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @foreach ($items as $item)
-                    <tr>
-                        <th scope="row">{{$item->id}}</th>
-                        <td>{{$item->name}}</td>
-                        <td>{{($item->status==1)?'Enable':'Disable'}}</td>
-                        <td>
-
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="card">
+                <div class="card-header">{{$title}}</div>
+                <div class="card-body">
+                    <table class="table" id="listingTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" width="200px">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $item)
+                            <tr>
+                                <th scope="row">{{$item->id}}</th>
+                                <td>{{$item->name}}</td>
+                                <td>{{($item->status==1)?'Enable':'Disable'}}</td>
+                                <td>
+                                    <a href="{{route('category.edit',['category'=>$item->id])}}" class="btn btn-sm btn-info"> Edit </a>
+                                    <a href="{{route('category.destroy',['category'=>$item->id])}}" data-method="delete" class="btn btn-sm btn-danger"> Delete </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#listingTable').DataTable();
+    });
+</script>
+@endpush

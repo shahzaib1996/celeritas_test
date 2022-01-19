@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +22,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::resources([
-    'category' => App\Http\Controllers\PostCategoryController::class,
-    'post' => App\Http\Controllers\PostController::class,
-]);
+Route::resource('category', PostCategoryController::class)->except(['destroy']);
+Route::get('category/{category}', [PostCategoryController::class, 'destroy'])->name('category.destroy');
+
+Route::resource('post', PostController::class)->except(['destroy']);
+Route::get('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');

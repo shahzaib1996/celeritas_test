@@ -76,7 +76,7 @@ class PostCategoryController extends Controller
     {
         $item = PostCategory::findOrFail($id);
         $item->update($request->input());
-        return back();
+        return redirect()->route('category.index');
     }
 
     /**
@@ -88,7 +88,7 @@ class PostCategoryController extends Controller
     public function destroy($id)
     {
         PostCategory::where('id',$id)->delete();
-        return back();
+        return redirect()->route('category.index');
     }
 
     private function arrangeRequestData($id=null){
