@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+use App\Models\PostCategory;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -23,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create', $this->arrangeRequestData() );
     }
 
     /**
@@ -32,9 +35,10 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        Post::create($request->input());
+        return back();
     }
 
     /**
@@ -56,7 +60,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('post.create', $this->arrangeRequestData($id) );
     }
 
     /**
@@ -81,4 +85,20 @@ class PostController extends Controller
     {
         //
     }
+
+    private function arrangeRequestData($id=null){
+        $data['categories'] = PostCategory::where('status',PostCategory::STATUS_ACTIVE)->get();
+        if( $id ){
+            $data['item'] = Post::findOrFail($id);
+            $data['title'] = 'Update Post';
+            $data['action'] = route('post.update',['post'=>$id]);
+        } else {
+            $data['item'] = null;
+            $data['title'] = 'Add Post';
+            $data['action'] = route('post.store');
+        }
+        // dd($data);
+        return $data;
+    }
+
 }

@@ -20,7 +20,6 @@ class CreatePostsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
 
             $table->string('name');
-            $table->string('image');
             $table->text('description');
             $table->boolean('status')->default(0);
 

@@ -95,9 +95,11 @@ class PostCategoryController extends Controller
         if( $id ){
             $data['item'] = PostCategory::findOrFail($id);
             $data['title'] = 'Update Category';
+            $data['action'] = route('category.update',['category'=>$id]);
         } else {
             $data['item'] = null;
             $data['title'] = 'Add Category';
+            $data['action'] = route('category.store');
         }
         return $data;
     }

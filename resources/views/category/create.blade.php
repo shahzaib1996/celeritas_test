@@ -8,9 +8,11 @@
             <div class="card">
                 <div class="card-header">{{$title}}</div>
                 <div class="card-body">
-                    <form class="form-signin" method="POST" action="{{ $item?route('category.update',['category'=>$item->id]):route('category.store') }}">
+                    <form class="form-signin" method="POST" action="{{ $action }}">
                         @csrf
+                        @if ($item)
                         @method('put')
+                        @endif
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="name" class="form-control" id="name" name="name" value="{{$item?$item->name:(old('name')??'')}}" placeholder="Enter name">

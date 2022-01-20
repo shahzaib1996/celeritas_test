@@ -24,8 +24,10 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::resource('category', PostCategoryController::class)->except(['destroy']);
+Route::resource('category', PostCategoryController::class)->except(['destroy','store']);
+Route::post('category', [PostCategoryController::class, 'store'])->name('category.store');
 Route::get('category/{category}', [PostCategoryController::class, 'destroy'])->name('category.destroy');
 
 Route::resource('post', PostController::class)->except(['destroy']);
+// Route::post('post', [PostController::class, 'storeNew'])->name('post.save');
 Route::get('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
