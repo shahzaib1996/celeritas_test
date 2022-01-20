@@ -72,7 +72,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Post::findOrFail($id);
+        $item->update($request->input());
+        return redirect()->route('post.index');
     }
 
     /**
@@ -97,7 +99,6 @@ class PostController extends Controller
             $data['title'] = 'Add Post';
             $data['action'] = route('post.store');
         }
-        // dd($data);
         return $data;
     }
 
