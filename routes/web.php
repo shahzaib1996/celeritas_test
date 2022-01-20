@@ -16,16 +16,21 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function (){
 
-Route::resource('category', PostCategoryController::class)->except(['destroy']);
-Route::get('category/{category}', [PostCategoryController::class, 'destroy'])->name('category.destroy');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    
+    Route::resource('category', PostCategoryController::class)->except(['destroy']);
+    Route::get('category/{category}', [PostCategoryController::class, 'destroy'])->name('category.destroy');
+    
+    Route::resource('post', PostController::class)->except(['destroy']);
+    Route::get('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    
+});
 
-Route::resource('post', PostController::class)->except(['destroy']);
-Route::get('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');

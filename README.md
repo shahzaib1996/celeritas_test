@@ -17,6 +17,9 @@
 6. Create db tables by running the following command in terminal:
     php artisan migrate
 
+7. Link storage using the following command:
+    php artisan storage:link
+
 
 
 ## License

@@ -11,4 +11,11 @@ class PostImage extends Model
 
     protected $guarded = ['id'];
 
+    public function getImagePathAttribute($value){
+        if($value){
+            return asset('storage/' . $value);
+        }
+        return $value;
+    }
+
 }

@@ -37,7 +37,10 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        Post::create($request->input());
+        $post = Post::create($request->input());
+        if ($request->hasFile('images')) {
+            $post->uploadImages($request->file('images'));
+        }
         return back();
     }
 

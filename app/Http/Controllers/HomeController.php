@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data['title'] = 'Posts';
+        $data['posts'] = Post::where('status',Post::STATUS_ACTIVE)->get();
+        return view('home',$data);
     }
 }

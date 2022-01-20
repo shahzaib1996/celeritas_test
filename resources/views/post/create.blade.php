@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">{{$title}}</div>
                 <div class="card-body">
-                    <form class="form-signin" method="POST" action="{{$action}}" enctypxe="multipart/form-data">
+                    <form class="form-signin" method="POST" action="{{$action}}" enctype="multipart/form-data">
                         @csrf
                         @if ($item)
                         @method('put')
@@ -62,6 +62,22 @@
                 </div>
             </div>
         </div>
+        @if($item && ($item->images->count()>0))
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Images</div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach($item->images as $image)
+                        <div class="col-md-6 p-1">
+                            <img src="{{$image->image_path}}" alt="" class="w-100 border border-dark" />
+                        </div>                        
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 

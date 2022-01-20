@@ -86,7 +86,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="text" class="form-control" id="password" placeholder="Enter your password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                     @error('password')
                         <small class="form-text text-danger"> {{ $message }} </small>
                     @enderror
