@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostCommentRequest;
 use App\Models\PostCategory;
 use App\Models\Post;
 
@@ -16,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $data['title'] = 'My Posts';
+        $data['items'] = Post::all();
+        return view('post.index',$data);
     }
 
     /**
@@ -41,7 +44,7 @@ class PostController extends Controller
         if ($request->hasFile('images')) {
             $post->uploadImages($request->file('images'));
         }
-        return back();
+        return redirect()->route('post.index');
     }
 
     /**
@@ -50,9 +53,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $data['post'] = Post::where('slug',$slug)->with(['comments.user'])->firstOrFail();
+        return view('post.show',$data);
     }
 
     /**
@@ -63,7 +67,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        return view('post.create', $this->arrangeRequestData($id) );
+        return view('post.create', $this->arrangeRequestData( decrypt($id) ) );
     }
 
     /**
@@ -73,7 +77,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
         $item = Post::findOrFail($id);
         $item->update($request->input());
@@ -88,7 +92,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $id = decrypt($id);
     }
 
     private function arrangeRequestData($id=null){
@@ -103,6 +107,12 @@ class PostController extends Controller
             $data['action'] = route('post.store');
         }
         return $data;
+    }
+
+    public function comment(PostCommentRequest $request,$id){
+        $post = Post::findOrFail( $id );
+        $post->comments()->create($request->input());
+        return back();
     }
 
 }

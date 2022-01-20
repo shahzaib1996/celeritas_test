@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Str;
 
-class PostRequest extends FormRequest
+class PostCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,24 +24,19 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','max:255'],
-            'category_id' => ['required','integer'],
-            'description' => ['required'],
+            'comment' => ['required','max:255'],
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'category_id.required' => 'Category is required',
-            'description.required' => 'Description is required',
+            'comment.required' => 'Comment cannot be empty'
         ];
     }
 
     protected function getValidatorInstance() {
         $data = $this->all();
-        $data['slug'] = Str::slug($data['name']);
         $data['user_id'] = auth()->user()->id;
         
         $this->getInputSource()->replace($data);

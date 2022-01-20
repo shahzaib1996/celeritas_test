@@ -11,6 +11,8 @@ class PostCategory extends Model
 
     const STATUS_ACTIVE = 1;
 
+    protected $appends = ['enc_id'];
+
     protected $fillable = [
         'name',
         'slug',
@@ -19,6 +21,10 @@ class PostCategory extends Model
 
     public function posts(){
         return $this->hasMany('App\Models\Post','category_id');
+    }
+
+    public function getEncIdAttribute(){
+        return encrypt($this->id);
     }
 
 }

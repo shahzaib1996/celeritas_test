@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostCategoryRequest;
 use App\Models\PostCategory;
-
+use App\Models\Post;
 
 class PostCategoryController extends Controller
 {
@@ -40,7 +40,7 @@ class PostCategoryController extends Controller
     public function store(PostCategoryRequest $request)
     {
         PostCategory::create($request->input());
-        return back();
+        return redirect()->route('category.index');
     }
 
     /**
@@ -62,7 +62,7 @@ class PostCategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('category.create', $this->arrangeRequestData($id) );
+        return view('category.create', $this->arrangeRequestData( decrypt($id) ) );
     }
 
     /**
@@ -87,7 +87,7 @@ class PostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        PostCategory::where('id',$id)->delete();
+        PostCategory::where('id', decrypt($id) )->delete();
         return redirect()->route('category.index');
     }
 
@@ -102,6 +102,13 @@ class PostCategoryController extends Controller
             $data['action'] = route('category.store');
         }
         return $data;
+    }
+
+    public function showPosts($id){
+        $category = PostCategory::findOrFail( decrypt($id) );
+        $data['posts'] = Post::where('category_id',decrypt($id))->where('status',Post::STATUS_ACTIVE)->get();
+        $data['title'] = $category->name.' Posts';
+        return view('home',$data);
     }
 
 }

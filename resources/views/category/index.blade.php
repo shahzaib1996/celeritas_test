@@ -16,6 +16,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Show Post</th>
                             <th scope="col" width="200px">Action</th>
                         </tr>
                         </thead>
@@ -26,8 +27,11 @@
                                 <td>{{$item->name}}</td>
                                 <td>{{($item->status==1)?'Enable':'Disable'}}</td>
                                 <td>
-                                    <a href="{{route('category.edit',['category'=>$item->id])}}" class="btn btn-sm btn-info"> Edit </a>
-                                    <a href="{{route('category.destroy',['category'=>$item->id])}}" data-method="delete" class="btn btn-sm btn-danger"> Delete </a>
+                                    <a href="{{route('category.posts',['id'=>$item->enc_id])}}" class="btn btn-sm btn-success"> Show Posts </a>
+                                </td>
+                                <td>
+                                    <a href="{{route('category.edit',['category'=>$item->enc_id])}}" class="btn btn-sm btn-info"> Edit </a>
+                                    <a href="{{route('category.destroy',['category'=>$item->enc_id])}}" data-method="delete" class="btn btn-sm btn-danger"> Delete </a>
                                 </td>
                             </tr>
                             @endforeach

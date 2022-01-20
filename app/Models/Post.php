@@ -13,8 +13,11 @@ class Post extends Model
     const STATUS_ACTIVE = 1;
     const DEFAULT_IMAGE_PATH = 'images/default_post.jpg';
 
+    protected $appends = ['enc_id'];
+
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'status',
         'user_id',
@@ -35,6 +38,10 @@ class Post extends Model
 
     public function images(){
         return $this->hasMany('App\Models\PostImage','post_id');
+    }
+
+    public function getEncIdAttribute(){
+        return encrypt($this->id);
     }
 
     public function getPrimaryImages(){

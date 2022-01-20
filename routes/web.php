@@ -28,9 +28,12 @@ Route::middleware(['auth'])->group(function (){
     
     Route::resource('category', PostCategoryController::class)->except(['destroy']);
     Route::get('category/{category}', [PostCategoryController::class, 'destroy'])->name('category.destroy');
+    Route::get('posts/category/{id}', [PostCategoryController::class, 'showPosts'])->name('category.posts');
     
     Route::resource('post', PostController::class)->except(['destroy']);
     Route::get('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::get('post/detail/{slug}', [PostController::class, 'show'])->name('post.show');
+    Route::post('post/{post}/comment/add', [PostController::class, 'comment'])->name('post.comment');
     
 });
 
